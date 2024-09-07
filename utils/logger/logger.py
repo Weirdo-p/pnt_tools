@@ -8,7 +8,7 @@ sys.path.insert(
 
 # logging.basicConfig(level = logging.INFO,format = '[%(levelname)s] [%(asctime)s]: %(message)s')
 color_formatter = colorlog.ColoredFormatter(
-    '%(log_color)s[%(levelname)s] [%(asctime)s]: %(message)s',
+    '%(log_color)s[%(levelname)s] [%(asctime)s] [%(filename)s:%(lineno)d]: %(message)s',
     log_colors={
         'DEBUG': 'cyan',
         'INFO': 'white',
