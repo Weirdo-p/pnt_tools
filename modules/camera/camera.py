@@ -15,13 +15,14 @@ class CameraType(enum.Enum):
     MONO   = 1
 
 class Camera:
-    def __init__(self, fx, fy, cx, cy, b = None, type = CameraType.MONO):
+    def __init__(self, fx, fy, cx, cy, resolution, b = None, type = CameraType.MONO):
         self.m_fx                = fx
         self.m_fy                = fy
         self.m_cx                = cx
         self.m_cy                = cy
         self.m_b                 = b
         self.m_type              = type
+        self.m_resolution        = resolution
         
     def project(self, xyz: np.ndarray) -> np.ndarray:
         """Project point in camera frame to image plane
@@ -70,6 +71,15 @@ class Camera:
             return self.m_b / self.m_fx
         else:
             logger.critical("[getBaseline] Only stereo cameras can call this function")
+
+    def in_image(self, uv: np.ndarray) -> bool:
+        u, v = uv[0], uv[1]
+        width, height = self.m_resolution[0], self.m_resolution[1]
+        if u < 0 or u >= width: return False
+        if v < 0 or v >= height: return False
+
+        return True
+
 
 
 if __name__ == "__main__":
