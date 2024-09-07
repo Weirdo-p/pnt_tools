@@ -1,5 +1,11 @@
 import numpy as np
 import math
+import os
+import sys
+
+sys.path.insert(
+    0, os.path.dirname(os.path.abspath(__file__)) + "/../../")
+
 from utils.logger.logger import logger
 
 
@@ -40,7 +46,7 @@ def RotMatrix2RotAngle(rot_mat: np.array) -> np.array:
         angle[1] = math.atan(rot_mat[1, 2])
         angle[2] = math.atan2(rot_mat[2, 0], rot_mat[0, 0])
     else:
-        angle[0] = math.atan2(-rot_mat[0, 2], rot_mat[1, 0])
+        angle[0] = math.atan2(-rot_mat[1, 0], rot_mat[1, 1])
         angle[1] = math.asin(rot_mat[1, 2])
         angle[2] = math.atan2(-rot_mat[0, 2], rot_mat[2, 2])
 
@@ -48,7 +54,11 @@ def RotMatrix2RotAngle(rot_mat: np.array) -> np.array:
 
 
 if __name__ == "__main__":
-
-    angle = [0, 0, 0]
-    logger.info(RotMatrix2RotAngle(Angle2RotMatrix(angle)) - np.array(angle).reshape(3, 1))
+    angle = np.array([30, 79, 26]) * np.pi / 180.0
+    logger.info("test on rotation conversion")
+    logger.info("differences: ")
+    logger.info(
+            (RotMatrix2RotAngle(Angle2RotMatrix(angle)) - angle.reshape(3, 1)).flatten()
+    )
+    
 
