@@ -80,9 +80,9 @@ error = np.abs(dist_t - dist_o)
 logger.warning(f"distance between plane and missile is {dist_t}, theorectically: {dist_o}, error is {error}")
 
 #%% disturbance analysis
-PIXEL_EXTRACT_ERROR = 2
-ATTITUDE_ERROR = np.array([0, 1, 0]) * np.pi / 180.0
-POS_ERROR = np.array([1, 0, 0]).reshape(3, 1)
+PIXEL_EXTRACT_ERROR = np.array([0.5, 0.5, 0]).reshape(3, 1)
+ATTITUDE_ERROR = np.array([0, 0.05, 0]) * np.pi / 180.0
+POS_ERROR = np.array([0.05, 0.05, 0.05]).reshape(3, 1)
 
 #%% 1. extract error only
 logger.info(f"adding {PIXEL_EXTRACT_ERROR} extract errors to plane and missile")
@@ -129,7 +129,8 @@ error = np.abs(dist_t - dist_o)
 logger.warning(f"distance between plane and missile is {dist_t}, theorectically: {dist_o}, error is {error}")
 frame_b.m_pos = frame_b.m_pos - POS_ERROR
 
-#%% attitude error only
+#%% 3. attitude error only
+logger.info(f"adding {ATTITUDE_ERROR.flatten()} rad attitude errors to frame b")
 frame_b.m_rota = Angle2RotMatrix(ATTITUDE_ERROR)
 plane_pos_t = plane.triangulate()
 logger.warning("triangulation error {}, triangulated pos: {}, theoretical pos: {}".format((plane_pos_t - plane.m_pos).flatten(), plane_pos_t.flatten(), plane.m_pos.flatten()))
@@ -144,3 +145,25 @@ logger.warning(f"distance between plane and missile is {dist_t}, theorectically:
 # frame_b.m_pos = frame_b.m_pos - POS_ERROR
 frame_b.m_rota = np.identity(3)
 
+#%% 4. all errors added
+logger.info(f"adding {PIXEL_EXTRACT_ERROR} extract errors to plane and missile, {POS_ERROR.flatten()}m translation errors to frame b and {ATTITUDE_ERROR.flatten()} rad attitude errors to frame b")
+for i in range(len(plane.m_obs)):
+    plane.m_obs[i].m_pos = plane.m_obs[i].m_pos + PIXEL_EXTRACT_ERROR
+    plane.m_obs[i].m_PosInCamera = camera.lift(plane.m_obs[i].m_pos)
+
+for i in range(len(missile.m_obs)):
+    missile.m_obs[i].m_pos = missile.m_obs[i].m_pos + PIXEL_EXTRACT_ERROR
+    missile.m_obs[i].m_PosInCamera = camera.lift(missile.m_obs[i].m_pos)
+frame_b.m_pos = frame_b.m_pos + POS_ERROR
+frame_b.m_rota = Angle2RotMatrix(ATTITUDE_ERROR)
+
+plane_pos_t = plane.triangulate()
+logger.warning("triangulation error {}, triangulated pos: {}, theoretical pos: {}".format((plane_pos_t - plane.m_pos).flatten(), plane_pos_t.flatten(), plane.m_pos.flatten()))
+
+missile_pos_t = missile.triangulate()
+logger.warning("triangulation error {}, triangulated pos: {}, theoretical pos: {}".format((missile_pos_t - missile.m_pos).flatten(), missile_pos_t.flatten(), missile.m_pos.flatten()))
+
+dist_t = np.linalg.norm(plane_pos_t - missile_pos_t)
+dist_o = np.linalg.norm(plane.m_pos - missile.m_pos)
+error = np.abs(dist_t - dist_o)
+logger.warning(f"distance between plane and missile is {dist_t}, theorectically: {dist_o}, error is {error}")
