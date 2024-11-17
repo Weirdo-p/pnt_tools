@@ -110,7 +110,7 @@ def evaluate_accuracy(net, data_iter):
             metric.add(accuracy(net(X), y), y.numel())
     return metric[0] / metric[1]
 
-logger.info(evaluate_accuracy(net, test_iter))
+# logger.info(evaluate_accuracy(net, test_iter))
 
 def train_epoch(net, train_iter, loss, updater):
     if isinstance(net, torch.nn.Module):
@@ -165,16 +165,16 @@ def predict(net, test_iter, n=6): #@save
     d2l.show_images(
         X[0:n].reshape((n, 28, 28)), 1, n, titles=titles[0:n])
     d2l.plt.show()
-predict(net, test_iter)
+# predict(net, test_iter)
 
-from torch import nn
-net = nn.Sequential(nn.Flatten(), nn.Linear(784, 10))
+# from torch import nn
+# net = nn.Sequential(nn.Flatten(), nn.Linear(784, 10))
 
-def init_weights(m):
-    if type(m) == nn.Linear:
-        nn.init.normal_(m.weight, std=0.01)
-net.apply(init_weights)
+# def init_weights(m):
+#     if type(m) == nn.Linear:
+#         nn.init.normal_(m.weight, std=0.01)
+# net.apply(init_weights)
 
-loss = nn.CrossEntropyLoss(reduction='none')
-trainer = torch.optim.SGD(net.parameters(), lr=0.1)
-train(net, train_iter, test_iter, loss, num_epochs, trainer)
+# loss = nn.CrossEntropyLoss(reduction='none')
+# trainer = torch.optim.SGD(net.parameters(), lr=0.1)
+# train(net, train_iter, test_iter, loss, num_epochs, trainer)
