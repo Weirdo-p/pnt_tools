@@ -6,7 +6,11 @@ from cv_bridge import CvBridge
 from cv_bridge import CvBridgeError
 import cv2 as cv
 import argparse
-import os
+import os, sys
+
+sys.path.insert(
+    0, os.path.dirname(os.path.abspath(__file__)) + "/../")
+
 from utils.logger.logger import logger
 
 parser = argparse.ArgumentParser(description="Convert compressed image message to raw message (batch)")
@@ -20,12 +24,12 @@ bagpath = args.bag_path   # "2023-06-04-02-21-24_0.bag"
 outpath = args.save_path
 
 if not os.path.exists(outpath):
-    logger.warn("output path do not exists, try to create")
+    logger.warning("output path do not exists, try to create")
     os.makedirs(outpath)
 # os.
 baglist = glob.glob(bagpath + "*.bag")
 for each_bag in baglist:
-    newbagpath = outpath + each_bag
+    newbagpath = outpath + each_bag.split("/")[-1]
     bag = rosbag.Bag(each_bag, "r")
     new_bag = rosbag.Bag(newbagpath, "w")
     bag_data = bag.read_messages()
