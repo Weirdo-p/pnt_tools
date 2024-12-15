@@ -53,6 +53,30 @@ def RotMatrix2RotAngle(rot_mat: np.array) -> np.array:
     return angle
 
 
+def Azimuth2Attitude(azimuth):
+    yaw = azimuth[0]
+
+    if yaw <= np.pi:
+        yaw = -yaw
+    else:
+        yaw = np.pi * 2 - yaw
+    attitude = np.array([yaw, azimuth[1], azimuth[2]])
+    return attitude
+
+
+def Attitude2Azimuth(attitude):
+    yaw = attitude[0]
+    
+    if yaw < 0.0:
+        yaw = -yaw; 
+    else:
+        yaw = np.pi * 2 - yaw
+
+    azimuth = np.array([yaw, attitude[1], attitude[2]])
+
+    return azimuth
+
+
 if __name__ == "__main__":
     angle = np.array([30, 79, 26]) * np.pi / 180.0
     logger.info("test on rotation conversion")

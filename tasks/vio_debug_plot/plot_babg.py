@@ -20,7 +20,8 @@ color = {3: [(63 / 255), (169 / 255), (245 / 255)],  # black
         0: [(0 / 255), (141 / 255), (0 / 255)],
         4: [(20 / 255), (169 / 255), (89 / 255)],
         5: [(70 / 255), (114 / 255), (196 / 255)],
-        6: [(150 / 255), (150 / 255), (150 / 255)]}  # green
+        6: [(150 / 255), (150 / 255), (150 / 255)],
+        7: [(200 / 255), (200 / 255), (200 / 255)]}  # green
 
 font={
     #   'family':'Cambria',
@@ -47,20 +48,23 @@ for i, ax in enumerate(axs[0]):
     if i == 0:
         ax.set_ylabel("mg", labelpad=3, fontsize = 13, fontdict=font) 
     ax.grid(linestyle='-', color='k', alpha=0.055)
-    ax.plot(range(ba[i].shape[0]), ba[i], ls='-', color=color[0], linewidth=2.5, label=label_ba[i])
-    ax.plot(range(ba[i].shape[0]), sd_ba[i], ls='--', color=color[6], linewidth=1.5)
-    ax.plot(range(ba[i].shape[0]), -sd_ba[i], ls='--', color=color[6], linewidth=1.5)
+    ax.plot(sol["GPSTime"], ba[i], ls='-', color=color[0], linewidth=2.5, label=label_ba[i])
+    ax.plot(sol["GPSTime"], sd_ba[i], ls='--', color=color[6], linewidth=1.5)
+    ax.plot(sol["GPSTime"], -sd_ba[i], ls='--', color=color[6], linewidth=1.5)
+    ax.axvline(179740, linestyle='--', color=color[1])
     ax.legend()
+    
 for i, ax in enumerate(axs[1]):
     if i == 0:
         ax.set_ylabel("deg/hr", labelpad=3, fontsize = 13, fontdict=font)
     if i == 1:
         ax.set_xlabel("time [s]", labelpad=3, fontsize = 13, fontdict=font)
 
-    ax.grid(linestyle='-', color='k', alpha=0.055)
-    ax.plot(range(bg[i].shape[0]), bg[i], ls='-', color=color[0], linewidth=2.5, label=label_bg[i])
-    ax.plot(range(bg[i].shape[0]), sd_bg[i], ls='--', color=color[6], linewidth=1.5)
-    ax.plot(range(bg[i].shape[0]), -sd_bg[i], ls='--', color=color[6], linewidth=1.5)
+    ax.grid(linestyle='-', color='k', alpha=0.055) 
+    ax.plot(sol["GPSTime"], bg[i], ls='-', color=color[0], linewidth=2.5, label=label_bg[i])
+    ax.plot(sol["GPSTime"], sd_bg[i], ls='--', color=color[6], linewidth=1.5)
+    ax.plot(sol["GPSTime"], -sd_bg[i], ls='--', color=color[6], linewidth=1.5)
+    ax.axvline(179740, linestyle='--', color=color[1])
     ax.legend()
 plt.show()
 
