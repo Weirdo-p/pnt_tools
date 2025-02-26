@@ -9,17 +9,6 @@ from tasks.deep_learn.RNN import load_data_time_machine, train
 from utils.logger.logger import logger
 from tasks.deep_learn.try_gpu import *
 
-batch_size, num_steps = 32, 35
-train_iter, vocab = load_data_time_machine(batch_size, num_steps)
-
-num_hiddens = 256
-rnn_layer = nn.RNN(len(vocab), num_hiddens)
-
-state = torch.zeros((1, batch_size, num_hiddens))
-rnn_layer = nn.RNN(len(vocab), num_hiddens)
-
-X = torch.rand(size=(num_steps, batch_size, len(vocab)))
-Y, state_new = rnn_layer(X, state)
 
 class RNNModel(nn.Module):
     """The RNN model."""
@@ -52,9 +41,22 @@ class RNNModel(nn.Module):
                                 torch.zeros((self.num_directions * self.rnn.num_layers,
                                 batch_size, self.num_hiddens), device=device))
 
-device = d2l.try_gpu()
-net = RNNModel(rnn_layer, vocab_size=len(vocab))
-net = net.to(device)
-num_epochs, lr = 500, 1
-train(net, train_iter, vocab, lr, num_epochs, device)
+if __name__ == "__main__":
+    batch_size, num_steps = 32, 35
+    train_iter, vocab = load_data_time_machine(batch_size, num_steps)
+
+    num_hiddens = 256
+    rnn_layer = nn.RNN(len(vocab), num_hiddens)
+
+    state = torch.zeros((1, batch_size, num_hiddens))
+    rnn_layer = nn.RNN(len(vocab), num_hiddens)
+
+    X = torch.rand(size=(num_steps, batch_size, len(vocab)))
+    Y, state_new = rnn_layer(X, state)
+
+    device = d2l.try_gpu()
+    net = RNNModel(rnn_layer, vocab_size=len(vocab))
+    net = net.to(device)
+    num_epochs, lr = 500, 1
+    train(net, train_iter, vocab, lr, num_epochs, device)
         
