@@ -98,8 +98,8 @@ def XYZ2BLH(xyz):
         B0 = blh[0]
         iteration += 1
 
-    # blh[0] = Deg2Rad(blh[0])
-    # blh[1] = Deg2Rad(blh[1])
+    blh[0] = Deg2Rad(blh[0])
+    blh[1] = Deg2Rad(blh[1])
     # print (blh)
     return blh
 
@@ -242,3 +242,12 @@ def Rbe2Attitude(Rbe, LLH):
     Rbn = Rbe2Rbn(Rbe, LLH)
     
     return RotMatrix2RotAngle(Rbn.transpose())
+
+def Attitude2Rbe(att, xyz):
+    llh = XYZ2BLH(xyz)
+    Rne = Renu2xyz(llh).transpose()
+    Rnb = Angle2RotMatrix(att)
+
+    return (Rnb @ Rne).transpose()
+
+
