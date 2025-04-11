@@ -109,7 +109,23 @@ def XYZ2NEU(station, obj):
     neu = BLH2NEU(blh_station, blh_obj)
     return neu
 
-def BLH2XYZ(blh):
+def BLH2XYZ(LLH):
+
+    a = gs_WGS84_a
+    e2 = gs_WGS84_e2
+
+
+    sinp = np.sin(LLH[0])
+    cosp = np.cos(LLH[0])
+    sinl = np.sin(LLH[1])
+    cosl = np.cos(LLH[1])
+    v = a / np.sqrt(1.0 - e2 * sinp*sinp)
+
+    return np.array([(v + LLH[2])*cosp*cosl, (v + LLH[2])*cosp*sinl, (v*(1.0 - e2) + LLH[2])*sinp])
+
+    XYZ[0] = (v + LLH[2])*cosp*cosl;
+    XYZ[1] = (v + LLH[2])*cosp*sinl;
+    XYZ[2] = (v*(1.0 - e2) + LLH[2])*sinp;
     '''
 
     :param blh: in deg
