@@ -30,7 +30,7 @@ GVIO_PO = np.loadtxt(GVIO_PO_file)
 MSCKF_GVIO_file = os.path.join(root, "287000-287090_GVIO_MSCKF/ROVE_04.flf.imu_VIO.cmp")
 MSCKF_GVIO = np.loadtxt(MSCKF_GVIO_file)
 # GVIO_PO = GVIO_PO[::2, :]
-GI_TC_file = os.path.join(root, "287000-287090_LI_TC/ROVE_04.flf.imu_VIO.cmp")
+GI_TC_file = os.path.join(root, "287000-287090_LI_TC/ROVE_03.flf.imu_VIO.cmp")
 GI_TC = np.loadtxt(GI_TC_file)
 # GI_TC = GI_TC[::2, :]
 PO_file = os.path.join(root, "287000-287090_PO/ROVE_04.flf.imu_VIO.cmp")
@@ -49,7 +49,7 @@ all_data = [GI_TC, MSCKF_GVIO, GVIO_PO]
 markers = ["o", "o", "o"]
 labels = ["GI", "MSCKF-GVINS", "PO-GVINS"]
 
-header, sol = ParseIPSSol().parseSINS("/home/xuzhuo/Documents/data/01-mini/20240717/proj/R_RTK_TCI/ROVE_04.ftf")
+header, sol = ParseIPSSol().parseSINS("/home/xuzhuo/Documents/data/01-mini/20240717/proj/R_RTK_TCI/ROVE_03.ftf")
 used_data = (sol['GPSTime'] > 287000) & (sol['GPSTime'] < 287090)
 testA_time = sol["GPSTime"][used_data]
 testA_time = testA_time - testA_time[0]
@@ -143,7 +143,7 @@ ax.spines['left'].set_linewidth(1.5)
 ax.spines['right'].set_linewidth(1.5)
 ax.spines['top'].set_linewidth(1.5)
 ax.set_xlim(0, 90)
-plt.savefig("/home/xuzhuo/Documents/data/01-mini/20240717/proj/287000-287090_GVIO_GI.svg", transparent=True)
+# plt.savefig("/home/xuzhuo/Documents/data/01-mini/20240717/proj/287000-287090_GVIO_GI.svg", transparent=True)
 plt.show()
 
 MSCKF_cdf = np.linalg.norm(MSCKF[:, 1:4], axis=1, ord=2)
@@ -342,6 +342,6 @@ plt.yticks(size = 12)
 # plt.legend([f'{cat}' for cat in categories], loc='upper right', fontsize=8)
 plt.grid(axis='y', linestyle='-', alpha=0.17)
 plt.tight_layout()
-plt.savefig("/home/xuzhuo/Documents/data/01-mini/20240717/proj/testA/angle/testA_angle_rpe.svg", transparent=True)
+# plt.savefig("/home/xuzhuo/Documents/data/01-mini/20240717/proj/testA/angle/testA_angle_rpe.svg", transparent=True)
 
 plt.show()

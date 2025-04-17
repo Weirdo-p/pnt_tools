@@ -25,7 +25,7 @@ color = {3: [(63 / 255), (169 / 255), (245 / 255)],  # black
 #         5: [(70 / 255), (114 / 255), (196 / 255)]}  # green
 
 root = "/home/xuzhuo/Documents/data/01-mini/20240717/proj/R_RTK_TCI"
-com_file = os.path.join(root, "ROVE_04.ftf.com")
+com_file = os.path.join(root, "ROVE_03.ftf.com")
 com_data = np.loadtxt(com_file)
 
 com_data = com_data[(com_data[:, 0] > 286763) & (com_data[:, 0] < 288750), :]
@@ -61,7 +61,7 @@ ax.spines['right'].set_linewidth(1)
 ax.spines['top'].set_linewidth(1)
 plt.subplots_adjust(left=0.13, right=0.94, bottom=0.15, top=0.89, wspace=0.01, hspace=0.1)
 plt.xlabel("time (s)", fontdict=font)
-plt.savefig("/home/xuzhuo/Documents/data/01-mini/20240717/proj/R_RTK_TCI/TC.svg", transparent=True)
+# plt.savefig("/home/xuzhuo/Documents/data/01-mini/20240717/proj/R_RTK_TCI/TC.svg", transparent=True)
 plt.show()
 
 #%% 
@@ -74,7 +74,7 @@ plt.close()
 #         5: [(70 / 255), (114 / 255), (196 / 255)]}  # green
 
 parser = ParseIPSSol()
-head, sol = parser.parseSINS("/home/xuzhuo/Documents/data/01-mini/20240717/proj/R_RTK_TCI/ROVE_04.ftf")
+head, sol = parser.parseSINS("/home/xuzhuo/Documents/data/01-mini/20240717/proj/R_RTK_TCI/ROVE_03.ftf")
 used_data = (sol['GPSTime'] > 286763) & (sol['GPSTime'] < 288750)
 testA_time = sol["GPSTime"][used_data]
 testA_pdop = np.sqrt(np.linalg.norm(sol["HDOP"][used_data].reshape(-1, 1), axis=1, ord=2) + np.linalg.norm(sol["VDOP"][used_data].reshape(-1, 1), axis=1, ord=2))

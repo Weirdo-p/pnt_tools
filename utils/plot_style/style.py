@@ -351,7 +351,7 @@ def plotPdop(time, pdop, nsat, save):
     # ax.yaxis.set_minor_locator(MultipleLocator(5)) 
     plt.yticks(size=12)
     plt.xticks(size=12)
-    plt.ylim(10, 40)
+    plt.ylim(0, 40)
     plt.xlim(0, 2000)
 
     # plt.ylim(0, 30)
@@ -369,7 +369,7 @@ def plotPdop(time, pdop, nsat, save):
     plt.margins(x=0, y=0)
     plt.xlabel("time (s)", fontdict=font)
 
-    plt.savefig(save, transparent=True)
+    # plt.savefig(save, transparent=True)
     plt.show()
 
 color = {3: [(0 / 255), (167 / 255), (251 / 255)],  # black
@@ -413,7 +413,7 @@ def plotCDF(cdf_dict = {}, save="", color=color):
     plt.xticks(size = 12)
     plt.yticks(size = 12)
     
-    plt.savefig(save, transparent=True)
+    # plt.savefig(save, transparent=True)
     plt.show()
     
 def plotBar(bar_dict={}, save="./"):

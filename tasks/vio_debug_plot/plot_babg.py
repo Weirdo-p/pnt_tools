@@ -12,7 +12,7 @@ from utils.rotation.dcm import *
 import matplotlib.pyplot as plt
 from utils.ips import parse
 
-path_sol = "/home/xuzhuo/Documents/data/01-mini/20240702/proj/R_RTK_TCI/ROVE_02.flf"
+path_sol = "/home/xuzhuo/Documents/data/gici/new/5.2/IPSProj/R_RTK_LCI/gnss_rover.flf"
 
 color = {3: [(63 / 255), (169 / 255), (245 / 255)],  # black
         2: [(255 / 255), (102 / 255), (102 / 255)],  # red
@@ -51,7 +51,7 @@ for i, ax in enumerate(axs[0]):
     ax.plot(sol["GPSTime"], ba[i], ls='-', color=color[0], linewidth=2.5, label=label_ba[i])
     ax.plot(sol["GPSTime"], sd_ba[i], ls='--', color=color[6], linewidth=1.5)
     ax.plot(sol["GPSTime"], -sd_ba[i], ls='--', color=color[6], linewidth=1.5)
-    ax.axvline(179740, linestyle='--', color=color[1])
+    # ax.axvline(179740, linestyle='--', color=color[1])
     ax.legend()
     
 for i, ax in enumerate(axs[1]):
@@ -64,7 +64,7 @@ for i, ax in enumerate(axs[1]):
     ax.plot(sol["GPSTime"], bg[i], ls='-', color=color[0], linewidth=2.5, label=label_bg[i])
     ax.plot(sol["GPSTime"], sd_bg[i], ls='--', color=color[6], linewidth=1.5)
     ax.plot(sol["GPSTime"], -sd_bg[i], ls='--', color=color[6], linewidth=1.5)
-    ax.axvline(179740, linestyle='--', color=color[1])
+    # ax.axvline(179740, linestyle='--', color=color[1])
     ax.legend()
 plt.show()
 
